@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<br><br><br>
+<h1 class="text-capitalize text-center mx-10 bg-dark text-white"> Register a new invoice </h1>
+<form action="" method="post">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="customer"> Customer </label>
+            <select name="customer" class="form-control" id="customer">
+                <option >Choose the customer </option>
+                {% for customer in customers %}
+                    <option value="{{ customer.id }}">{{forloop.counter}}-{{customer.name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="invoice-type">Invoice Type</label>
+            <select name="paid" id="paid" class="form-control">
+                <option>Choose the type of invoice</option>
+                <option value="R">Reçu</option>
+                <option value="P">Profoma Facture</option>
+                <option value="F">Facture</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="paid">Paid</label>
+            <select name="paid" id="paid" class="form-control">
+                <option value="{{ False }}">No</option>
+                <option value="{{ True }}">Yes</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-12">
+            <label for="comments">Comments</label>
+            <textarea name="comments" class="form-control" rows="3" id="comments"></textarea>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+{% endblock content %}

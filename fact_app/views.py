@@ -52,3 +52,33 @@ class AddCustomerView(View):
         except Exception as e:
             messages.error(request, f"Sorry our system is detecting the following issues {e}")
         return render(request, self.template_name)
+    
+class AddInvoiceView(View):
+    """ Add new invoice """
+    template_name = "add_invoice.html"
+
+    def get(self, request, *args, **kwargs):
+        context = {
+            'customers': Customer.objects.all(),
+        }
+        return render(request, self.template_name, context=context)
+
+    def post(self, request, *args, **kwargs):
+        data = {
+            'customer': request.POST.get('customer'),
+            'save_by': request.user,
+            'invoice_type': request.POST.get('invoice-type'),
+            'paid': request.POST.get('paid'),
+            'comments' : request.POST.get('comments')
+        }
+
+        try:
+            created = Invoice.objects.create(**data)
+            if created:
+                messages.success(request, "Invoice registered successfully.")
+            else:
+                messages.error(request, "Sorry, please try again, the sent data is corrupt")
+
+        except Exception as e:
+            messages.error(request, f"Sorry our system is detecting the following issues {e}")
+        return render(request, self.template_name)
